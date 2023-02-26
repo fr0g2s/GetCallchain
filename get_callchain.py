@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from angr import 
+import angr
 import sys
 import json
 import os
