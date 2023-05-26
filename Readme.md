@@ -28,6 +28,7 @@ angr의 explore를 이용해 원하는 주소를 찾고싶지만, 오버헤드�
 		내가 찾은 함수 흐름을 타는 입력값을 찾는다고 해도, 함수 안의 특정 명령어를 실행하게 하려면 DFS로 얻은 함수 흐름을 이용해 또 기호 실행을 해야한다.
 
 4. 간접 호출은 추적 못함
+<<<<<<< HEAD
 	- 간접 호출의 경우, angr의 api가 UnresolvableCallTarget를 뱉는다. 더 이상 추적이 불가능하다. 정적 분석의 한계다.
 
 
@@ -35,3 +36,6 @@ angr의 explore를 이용해 원하는 주소를 찾고싶지만, 오버헤드�
 ## 기타
 - main에서부터 함수를 찾는 이유?  
 -- get_callchain은 함수의 call site, call target을 이용하는데, _start는 main을 직접 호출하지 않고, __libc_start_main을 이용해서 main을 추적하지 못함.  
+=======
+	- 간접 호출의 경우, angr의 api가 UnresolvableCallTarget를 뱉는다. 더 이상 추적이 불가능하다. 정적 분석의 한계다. (VSA를 사용하거나, 기호실행 시 탐색해야할 부분으로 추가하면..?)
+>>>>>>> 48670006ea492b984b31adf37875c407dd36cadc
