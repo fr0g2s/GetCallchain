@@ -29,3 +29,9 @@ angr의 explore를 이용해 원하는 주소를 찾고싶지만, 오버헤드�
 
 4. 간접 호출은 추적 못함
 	- 간접 호출의 경우, angr의 api가 UnresolvableCallTarget를 뱉는다. 더 이상 추적이 불가능하다. 정적 분석의 한계다.
+
+
+
+## 기타
+- main에서부터 함수를 찾는 이유?  
+-- get_callchain은 함수의 call site, call target을 이용하는데, _start는 main을 직접 호출하지 않고, __libc_start_main을 이용해서 main을 추적하지 못함.  

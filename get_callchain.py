@@ -23,8 +23,9 @@ class Helper:
 		self.cfg = self.proj.analyses.CFGFast()
 		self.find_func_addr = find_func_addr
 
-	def dump_callchain(self, callchain: list):
+	def dump_callchain(self):
 		found = False
+		callchain = self.call_chain
 		print("====== DUMP CALLCHAIN =====")
 		for i in range(0, len(callchain), 1):
 			funcInfoNd = callchain[i]	
@@ -41,13 +42,13 @@ class Helper:
 		if not found:
 			print('can not find possible call chain to', hex(self.find_func_addr))
 
-	def get_callchain(self, func_name="main") -> dict:	
+	def get_callchain(self, start_func_name="main") -> dict:	
 		""" 
 			using DFS to get callchain 
 			return [FuncInfoNd(name, addr, flags)]
 		"""
 		self.call_chain = []	# == call history
-		func = self.cfg.kb.functions[func_name]
+		func = self.cfg.kb.functions[start_func_name]
 		if func.addr == self.find_func_addr:
 			return []
 
@@ -69,17 +70,6 @@ class Helper:
 			# 이 함수가 재귀함수인지 검사
 			if self.__isRecursive(call_target.name):
 				continue
-			"""
-			isRecur = False
-			for i in range(0, len(call_chain), 1):
-				if call_chain[i].name == call_target.name:
-					call_chain[i].flags += FuncInfoNd.isRecursive
-					isRecur = True
-					break
-			if isRecur:
-				continue
-			"""
-
 			call_sites = [(call_target, call_site) for call_site in list(call_target.get_call_sites())] + call_sites
 			self.call_chain.append(FuncInfoNd(call_target.name, call_target.addr, flags))
 		return self.call_chain
@@ -105,7 +95,7 @@ def main(filename: str, find_func: int):
 	
 	b = Helper(filename, find_func)
 	callchain = b.get_callchain('main')
-	b.dump_callchain(callchain)
+	b.dump_callchain()
 
 def test(filename, target):
 	print('[*] target: ', hex(target))
